@@ -3,18 +3,33 @@
 from tkinter import *
 from tkinter.filedialog import *
 
+def func_open() :
+    filename = askopenfilename(parent = window,
+                filetypes = (("GIF 파일","*.gif"),
+                ("모든 파일","*.*")))
+    photo = PhotoImage(file = filename)
+    pLabel.configure(image = photo)
+    pLabel.image = photo
+
+def func_exit() :
+    window.quit()
+    window.destory()
+
+#메인 코드 부분
 window = Tk()
-window.geometry("400x100")
+window.geometry("400x400")
+window.title("영화 감상하기")
 
-label1 = Label(window, text = "선택된 파일 이름")
-label1.pack()
+photo = PhotoImage()
+pLabel = Label(window, image = photo)
+pLabel.pack(expand = 1, anchor = CENTER)
 
-saveFp = asksaveasfile(parent = window, mode = "w",
-                       defaultextension= ".jpg",
-                       filetypes = (("JPG 파일", "*.jpg;*.jpeg"),
-                        ("모든 파일","*.*")))
-
-label1.configure(text = saveFp)
-saveFp.close()
+mainMenu = Menu(window)
+window.config(menu = mainMenu)
+fileMenu = Menu(mainMenu)
+mainMenu.add_cascade(label = "파일", menu = fileMenu)
+fileMenu.add_command(label = "파일 열기", command = func_open)
+fileMenu.add_separator()
+fileMenu.add_command(label = "프로그램 종료", command = func_exit)
 
 window.mainloop()
